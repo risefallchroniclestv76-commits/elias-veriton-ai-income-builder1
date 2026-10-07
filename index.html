@@ -1,0 +1,631 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Elias Veriton AI Income Builder</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#071827;color:#f7f3e8;overflow-x:hidden;overflow-y:auto}
+.app{min-height:100vh;display:block;padding:24px}
+.screen{display:none;width:min(920px,100%);min-height:620px;height:auto;border:1px solid #caa84f;border-radius:24px;padding:34px;background:#102a43;box-shadow:0 20px 60px rgba(0,0,0,.28)}
+.screen.active{display:block;margin:0 auto}
+.brand{letter-spacing:3px;font-weight:800;color:#d9b85d;font-size:14px}
+h1{font-size:42px;line-height:1.05;margin:16px 0}
+h2{font-size:30px;margin:12px 0}
+h3{margin-top:26px}
+p{line-height:1.65;color:#e5e0d4}
+.btn{border:0;border-radius:12px;padding:15px 20px;font-weight:800;cursor:pointer;background:#d9b85d;color:#071827;font-size:15px}
+.btn.secondary{background:transparent;border:1px solid #66809b;color:#f7f3e8}
+.btn.full{width:100%;margin-top:18px}.btn:disabled{opacity:.45;cursor:not-allowed}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+label{display:block;font-weight:700;margin:14px 0}
+input,textarea{width:100%;padding:13px;border-radius:10px;border:1px solid #66809b;margin-top:7px;font-size:15px}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:20px}
+.card{border:1px solid #47617f;border-radius:16px;padding:20px;background:#0a1b2d}
+.plan{position:relative;cursor:pointer}
+.plan.selected{border:2px solid #d9b85d}
+.tick{position:absolute;right:14px;top:12px;opacity:.2}
+.plan.selected .tick{opacity:1}
+.price{font-size:27px;font-weight:800;margin:12px 0}
+.badge{display:inline-block;background:#d9b85d;color:#071827;padding:5px 8px;border-radius:999px;font-size:11px;font-weight:800}
+ul{padding-left:20px;line-height:1.8}
+.success{text-align:center;padding-top:70px}
+.success .check{font-size:58px}
+.small{font-size:12px;opacity:.7}
+.notice{padding:12px;border:1px solid #47617f;border-radius:10px;margin-top:14px}
+
+/* Social-style Pro dashboard */
+.social-dashboard{padding:22px 18px 88px;max-width:920px;position:relative;overflow:visible;min-height:900px}
+.dash-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}.dash-title{font-size:26px;font-weight:800;margin-top:4px}.dash-icons{display:flex;gap:9px;align-items:center}.icon-btn,.avatar{width:42px;height:42px;border-radius:50%;border:1px solid #47617f;background:#0a1b2d;color:#f7f3e8;cursor:pointer;position:relative}.avatar{font-weight:900;background:#d9b85d;color:#071827}.dot{position:absolute;width:8px;height:8px;background:#e55b5b;border-radius:50%;right:4px;top:5px;border:2px solid #0a1b2d}.welcome-card{display:flex;justify-content:space-between;align-items:center;gap:18px;padding:22px;border-radius:22px;background:linear-gradient(135deg,#173b5c,#0a1b2d);border:1px solid #52718f}.welcome-card h2{font-size:30px;margin:9px 0 5px}.welcome-card p{margin:0;max-width:590px}.pro-pill{display:inline-block;font-size:11px;font-weight:900;letter-spacing:1px;background:#d9b85d;color:#071827;border-radius:999px;padding:6px 10px}.ring{width:88px;height:88px;border-radius:50%;border:5px solid #d9b85d;display:flex;flex-direction:column;align-items:center;justify-content:center;flex:none}.ring span{font-size:24px;font-weight:900}.ring small{font-size:8px;text-align:center;line-height:1.1}.quick-row{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:16px 0}.quick{border:1px solid #47617f;background:#0a1b2d;color:#f7f3e8;border-radius:16px;padding:13px 8px;text-align:center;cursor:pointer}.quick.active{border-color:#d9b85d;background:#173b5c}.quick span{display:block;font-size:24px;margin-bottom:5px}.quick b,.quick small{display:block}.quick b{font-size:12px}.quick small{font-size:10px;opacity:.65;margin-top:3px}.section-head{display:flex;justify-content:space-between;align-items:center;margin:20px 2px 9px}.section-head h3{margin:0;font-size:12px;letter-spacing:1.3px}.section-head span{font-size:11px;opacity:.65}.feed-card{background:#0a1b2d;border:1px solid #47617f;border-radius:20px;padding:18px}.feed-head{display:flex;align-items:center;gap:10px}.feed-head strong,.feed-head small{display:block}.feed-head small{font-size:11px;opacity:.6;margin-top:2px}.feed-head>span{margin-left:auto;font-size:22px}.mini-avatar{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:#d9b85d;color:#071827;font-weight:900}.featured h3{margin:18px 0 8px;font-size:20px}.featured p{margin-top:0}.engage{display:flex;justify-content:space-between;font-size:11px;opacity:.7;margin-top:11px}.tool-preview{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.tool-preview>button{background:#0a1b2d;border:1px solid #47617f;border-radius:16px;padding:15px}.tool-preview span{font-size:23px;display:block}.tool-preview strong,.tool-preview small{display:block;text-align:left}.tool-preview strong{margin-top:8px;font-size:13px}.tool-preview small{font-size:10px;opacity:.6;margin-top:4px;line-height:1.4}.bottom-nav{position:sticky;bottom:0;display:flex;justify-content:space-around;align-items:center;margin:20px -18px -88px;padding:9px 8px 7px;background:rgba(7,24,39,.96);border-top:1px solid #47617f;backdrop-filter:blur(10px);z-index:5}.nav-item{border:0;background:none;color:#e5e0d4;display:flex;flex-direction:column;align-items:center;gap:3px;font-size:19px;cursor:pointer;min-width:55px}.nav-item small{font-size:9px}.nav-item.selected{color:#d9b85d}.nav-create{width:48px;height:48px;border-radius:15px;border:0;background:#d9b85d;color:#071827;font-size:28px;font-weight:900;cursor:pointer;box-shadow:0 8px 20px rgba(0,0,0,.25)}
+
+@media(max-width:760px){.grid,.cards{grid-template-columns:1fr}h1{font-size:34px}.screen{padding:24px}}
+.tool{border:1px solid #47617f;color:#f7f3e8;text-align:left;cursor:pointer;width:100%;font:inherit;transition:transform .15s,border-color .15s}.tool:hover{transform:translateY(-2px);border-color:#d9b85d}.tool h3{margin:0 0 8px}.tool p{margin:0}.tool:active,.quick:active,.nav-item:active,.nav-create:active{transform:scale(.98)}
+
+/* v1.30 product features */
+.screen.scroll-screen{max-height:none;overflow:visible}.app{align-items:flex-start}.social-dashboard{max-height:calc(100vh - 48px);overflow-y:auto}.tool-screen{max-height:calc(100vh - 48px);overflow-y:auto}.feature-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}.feature-card{border:1px solid #47617f;border-radius:16px;padding:18px;background:#0a1b2d}.feature-card h3{margin:0 0 8px}.muted{color:#aebdca;font-size:13px}.stat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.stat{padding:16px;border:1px solid #47617f;border-radius:14px;background:#0a1b2d}.stat strong{display:block;font-size:24px;margin-top:6px}.progress{height:12px;background:#071827;border-radius:99px;overflow:hidden;border:1px solid #47617f}.progress>span{display:block;height:100%;background:#d9b85d;width:0}.chip{display:inline-block;padding:7px 10px;border-radius:999px;border:1px solid #47617f;margin:4px;font-size:12px}.danger{border-color:#a85d5d!important;color:#ffd8d8!important}.toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);background:#d9b85d;color:#071827;padding:12px 18px;border-radius:12px;font-weight:800;display:none;z-index:9999}.search{margin:10px 0}.resource-list,.saved-list{display:grid;gap:10px}.list-item{display:flex;justify-content:space-between;gap:10px;align-items:center;border:1px solid #47617f;border-radius:12px;padding:12px;background:#0a1b2d}.bottom-nav{position:sticky;bottom:0;background:#0b2136;padding:10px;border-radius:16px;margin-top:18px;z-index:20}.nav-item,.nav-create{cursor:pointer}.nav-item:focus,.nav-create:focus,.quick:focus,.tool:focus,.btn:focus{outline:2px solid #d9b85d;outline-offset:2px}@media(max-width:760px){.feature-grid,.stat-grid{grid-template-columns:1fr}}
+</style>
+
+<style>.large-text body,.large-text .screen{font-size:1.08em}.large-text h1{font-size:46px}.large-text button,.large-text input,.large-text textarea{font-size:1.05em}.reduce-motion *{scroll-behavior:auto!important;transition:none!important;animation:none!important}</style>
+<link rel="icon" href="/assets/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/assets/icon-192.png">
+<link rel="manifest" href="/manifest.webmanifest">
+</head>
+<body>
+<div class="app">
+
+<section id="s1" class="screen active">
+  <div class="brand">ELIAS VERITON</div>
+  <h1>AI Income Builder</h1>
+  <p>Turn what you know, have, or can do into practical income opportunities.</p>
+  <button class="btn" data-next="s2">START BUILDING</button>
+</section>
+
+<section id="s2" class="screen">
+  <div class="brand">ELIAS VERITON</div>
+  <h2>Tell Us About You</h2>
+  <p>Give us four details so we can build a practical income path for you.</p>
+  <div class="grid">
+    <label>Skills / Experience
+      <textarea id="skills" rows="3" placeholder="e.g. teaching, writing, sales"></textarea>
+    </label>
+    <label>Starting Capital
+      <input id="capital" placeholder="e.g. ₦10,000">
+    </label>
+    <label>Time Available Per Day
+      <input id="time" placeholder="e.g. 2 hours">
+    </label>
+    <label>Monthly Income Target
+      <input id="target" placeholder="e.g. ₦500,000">
+    </label>
+  </div>
+  <button class="btn full" id="build">FIND MY OPPORTUNITIES</button>
+</section>
+
+<section id="s3" class="screen">
+  <div class="brand">ELIAS VERITON</div>
+  <h2>Your Income Opportunities</h2>
+  <p id="result-summary">Here are three practical opportunities based on your information.</p>
+  <div id="opportunities" class="cards"></div>
+  <button type="button" class="btn full" id="start-pro" style="display:block;position:relative;z-index:10;cursor:pointer;">START USING PRO</button>
+</section>
+
+<section id="s4" class="screen">
+  <div class="brand">ELIAS VERITON PRO</div>
+  <h2>UNLOCK YOUR FULL INCOME-BUILDING SYSTEM</h2>
+  <p>Free users can see basic recommendations.</p>
+  <ul>
+    <li>✓ Unlimited income opportunities</li>
+    <li>✓ Detailed business plans</li>
+    <li>✓ Customer acquisition strategies</li>
+    <li>✓ WhatsApp sales scripts</li>
+    <li>✓ Marketing content</li>
+    <li>✓ Pricing guidance</li>
+    <li>✓ 30-day execution plans</li>
+    <li>✓ Multiple-income planning</li>
+    <li>✓ AI-powered assistance</li>
+  </ul>
+  <h3>Choose your plan</h3>
+  <div class="cards">
+    <button class="card plan" data-plan="Monthly Pro" data-amount="750000" data-display="₦7,500/month">
+      <span class="tick">✓</span><strong>MONTHLY PRO</strong>
+      <div class="price">₦7,500/month</div><p>Best for flexible monthly access.</p>
+    </button>
+    <button class="card plan" data-plan="Annual Pro" data-amount="7500000" data-display="₦75,000/year">
+      <span class="tick">✓</span><span class="badge">BEST VALUE</span><br><strong>ANNUAL PRO</strong>
+      <div class="price">₦75,000/year</div><p>Best for users building throughout the year.</p>
+    </button>
+    <button class="card plan" data-plan="Lifetime Pro" data-amount="25000000" data-display="₦250,000 one-time">
+      <span class="tick">✓</span><strong>LIFETIME PRO</strong>
+      <div class="price">₦250,000</div><p>One-time payment for lifetime access.</p>
+    </button>
+  </div>
+  <div id="chosen" class="notice">Select a plan above, enter your email, then click PAY WITH PAYSTACK.</div>
+  <label>Payment email
+    <input id="email" type="email" placeholder="Enter the email to receive your payment receipt">
+  </label>
+  <button class="btn full" id="pay" disabled>💳 PAY WITH PAYSTACK</button>
+  <p class="small">Payment will be handled by Paystack. The customer chooses the available payment method, such as card or bank transfer, on the secure checkout.</p>
+</section>
+
+<section id="s6" class="screen">
+  <div class="success">
+    <div class="check">✓</div>
+    <div class="brand">ELIAS VERITON PRO</div>
+    <h2>PAYMENT SUCCESSFUL</h2>
+    <p>Welcome to Elias Veriton Pro!</p>
+    <div id="paid-details" class="notice"></div>
+    <h3>What you've unlocked</h3>
+    <ul style="text-align:left;max-width:520px;margin:0 auto 20px">
+      <li>✓ Unlimited income opportunities</li>
+      <li>✓ Detailed business plans</li>
+      <li>✓ Customer acquisition strategies</li>
+      <li>✓ WhatsApp sales scripts</li>
+      <li>✓ Marketing content</li>
+      <li>✓ Pricing guidance</li>
+      <li>✓ 30-day execution plans</li>
+      <li>✓ Multiple-income planning</li>
+      <li>✓ AI-powered assistance</li>
+    </ul>
+    <button class="btn" id="pro-start">START USING PRO</button>
+  </div>
+</section>
+
+
+
+<section id="s7" class="screen social-dashboard">
+  <div class="dash-top">
+    <div><div class="brand">ELIAS VERITON</div><div class="dash-title">Your Income Hub</div></div>
+    <div class="dash-icons"><button class="icon-btn" type="button" aria-label="Open AI Assistant" onclick="show('s16')">🔔<span class="dot"></span></button><button class="avatar" type="button" aria-label="Open profile and AI Assistant" onclick="show('s16')">EV</button></div>
+  </div>
+  <div class="welcome-card"><div><div class="pro-pill">✦ PRO MEMBER</div><h2>Build. Sell. Grow.</h2><p>Your personal space for turning skills, knowledge and resources into income.</p></div><div class="ring"><span>0</span><small>DAY<br>STREAK</small></div></div>
+  <div class="quick-row">
+    <button class="quick active" onclick="show('s8')"><span>🤖</span><b>AI Plan</b><small>Open</small></button>
+    <button class="quick" onclick="show('s9')"><span>📋</span><b>Plans</b><small>Open</small></button>
+    <button class="quick" onclick="show('s10')"><span>🎯</span><b>Customers</b><small>Open</small></button>
+    <button class="quick" onclick="show('s11')"><span>💬</span><b>Scripts</b><small>Open</small></button>
+  </div>
+  <div class="section-head"><h3>YOUR NEXT MOVE</h3><span>Today</span></div>
+  <article class="feed-card featured"><div class="feed-head"><div class="mini-avatar">AI</div><div><strong>AI Income Coach</strong><small>Personal recommendation</small></div><span>⋯</span></div><h3>🤖 Create your first AI Income Plan</h3><p>Let's turn your skills, available time, starting capital and income target into a practical action plan.</p><button class="btn full" onclick="show('s8')">CREATE MY PLAN →</button><div class="engage"><span>⚡ Start here</span><span>Save for later</span></div></article>
+  <div class="section-head"><h3>YOUR PRO TOOLBOX</h3><span>9 tools</span></div>
+  <div class="tool-preview">
+    <button class="tool" type="button" onclick="show('s12')"><span>📣</span><strong>Marketing Content</strong><small>Create content that attracts buyers</small></button>
+    <button class="tool" type="button" onclick="show('s13')"><span>💰</span><strong>Pricing Guidance</strong><small>Choose prices with confidence</small></button>
+    <button class="tool" type="button" onclick="show('s14')"><span>📅</span><strong>30-Day Execution</strong><small>Turn plans into daily action</small></button>
+    <button class="tool" type="button" onclick="show('s15')"><span>📈</span><strong>Multiple Income</strong><small>Build more than one income stream</small></button>
+    <button class="tool" type="button" onclick="show('s16')"><span>⚡</span><strong>AI Assistance</strong><small>Get help with your next move</small></button>
+  </div>
+  <div class="section-head"><h3>YOUR SPACE</h3><span>Personal</span></div>
+  <div class="tool-preview">
+    <button class="tool" type="button" onclick="show('s17')"><span>👤</span><strong>My Profile</strong><small>Account and personal goals</small></button>
+    <button class="tool" type="button" onclick="show('s18')"><span>💾</span><strong>Saved Work</strong><small>Return to your saved results</small></button>
+    <button class="tool" type="button" onclick="show('s19')"><span>📊</span><strong>Progress Tracker</strong><small>Track income and actions</small></button>
+    <button class="tool" type="button" onclick="show('s20')"><span>🔎</span><strong>Discover</strong><small>Explore income opportunities</small></button>
+    <button class="tool" type="button" onclick="show('s21')"><span>🧰</span><strong>Resources</strong><small>Templates and practical tools</small></button>
+    <button class="tool" type="button" onclick="show('s22')"><span>❤️</span><strong>Favorites</strong><small>Your saved opportunities</small></button>
+    <button class="tool" type="button" onclick="show('s23')"><span>📤</span><strong>Export & Share</strong><small>Copy and download your work</small></button>
+    <button class="tool" type="button" onclick="show('s24')"><span>💳</span><strong>Subscription</strong><small>Manage your Pro access</small></button>
+    <button class="tool" type="button" onclick="show('s25')"><span>⚙️</span><strong>Settings</strong><small>Preferences and privacy</small></button>
+    <button class="tool" type="button" onclick="show('s26')"><span>🆘</span><strong>Help & Support</strong><small>Get help when you need it</small></button>
+    <button class="tool" type="button" onclick="show('s28')"><span>🏆</span><strong>Achievements</strong><small>Build your momentum</small></button>
+    <button class="tool" type="button" onclick="show('s29')"><span>🔔</span><strong>Notifications</strong><small>Reminders and updates</small></button>
+    <button class="tool" type="button" onclick="show('s30')"><span>🗓️</span><strong>Activity</strong><small>Your recent actions</small></button>
+    <button class="tool" type="button" onclick="show('s31')"><span>🎯</span><strong>Goals</strong><small>Set and track goals</small></button>
+    <button class="tool" type="button" onclick="show('s32')"><span>💾</span><strong>Backup & Restore</strong><small>Protect your local data</small></button>
+    <button class="tool" type="button" onclick="show('s33')"><span>💡</span><strong>Feedback</strong><small>Help improve the app</small></button>
+    <button class="tool" type="button" onclick="show('s34')"><span>🎁</span><strong>Invite & Refer</strong><small>Share the app</small></button>
+    <button class="tool" type="button" onclick="show('s35')"><span>📱</span><strong>App Experience</strong><small>Accessibility and install</small></button>
+    <button class="tool" type="button" onclick="show('s36')"><span>ℹ️</span><strong>About</strong><small>App information</small></button>
+  </div>
+  <nav class="bottom-nav"><button class="nav-item selected" type="button" onclick="show('s7')"><span>⌂</span><small>Home</small></button><button class="nav-item" type="button" onclick="show('s20')"><span>◉</span><small>Discover</small></button><button class="nav-create" type="button" onclick="show('s8')">＋</button><button class="nav-item" type="button" onclick="show('s19')"><span>↗</span><small>Progress</small></button><button class="nav-item" type="button" onclick="show('s17')"><span>●</span><small>Profile</small></button></nav>
+</section>
+
+<section id="s8" class="screen tool-screen"><div class="brand">ELIAS VERITON PRO</div><h2>🤖 AI INCOME PLAN</h2><p>Turn your personal information into a focused income plan.</p><div class="card"><h3>Your plan at a glance</h3><div id="plan-summary" class="notice"></div><div id="ai-backend-status" class="notice">Checking secure AI connection…</div><button class="btn full" id="generate-ai-plan" type="button" onclick="generateAIIncomePlan()">GENERATE MY AI INCOME PLAN</button></div><div id="ai-plan-output" class="card" style="margin-top:14px;display:none"></div><button class="btn secondary full" onclick="show('s7')">← BACK TO DASHBOARD</button></section>
+
+<section id="s9" class="screen tool-screen"><div class="brand">ELIAS VERITON PRO</div><h2>📋 DETAILED BUSINESS PLAN</h2><p>Build a practical business model around your strongest opportunity.</p><div class="card"><label>Business / offer name<input id="bp-offer" placeholder="e.g. WhatsApp Sales Service"></label><label>Who will buy it<input id="bp-customer" placeholder="e.g. small businesses"></label><label>What result will you deliver?<textarea id="bp-result" rows="3" placeholder="Describe the result customers will get"></textarea></label><button class="btn full" id="build-business-plan">BUILD BUSINESS PLAN</button></div><div id="business-output" class="card" style="margin-top:14px;display:none"></div><button class="btn secondary full" onclick="show('s7')">← BACK TO DASHBOARD</button></section>
+
+<section id="s10" class="screen tool-screen"><div class="brand">ELIAS VERITON PRO</div><h2>🎯 CUSTOMER ACQUISITION</h2><p>Choose who to approach, where to find them and what to say.</p><div class="card"><label>What are you selling?<input id="ca-offer" placeholder="Your product or service"></label><label>Target customer<input id="ca-customer" placeholder="e.g. small business owners"></label><button class="btn full" id="find-customers">BUILD CUSTOMER ACQUISITION PLAN</button></div><div id="customer-output" class="card" style="margin-top:14px;display:none"></div><button class="btn secondary full" onclick="show('s7')">← BACK TO DASHBOARD</button></section>
+
+<section id="s11" class="screen tool-screen"><div class="brand">ELIAS VERITON PRO</div><h2>💬 WHATSAPP SALES SCRIPTS</h2><p>Generate ready-to-adapt messages for starting conversations, follow-up and closing.</p><div class="card"><label>Product / service<input id="wa-offer" placeholder="What are you selling?"></label><label>Customer type<input id="wa-customer" placeholder="Who are you selling to?"></label><button class="btn full" id="create-wa-script">CREATE MY WHATSAPP SCRIPTS</button></div><div id="wa-output" class="card" style="margin-top:14px;display:none"></div><button class="btn secondary full" onclick="show('s7')">← BACK TO DASHBOARD</button></section>
+
+<section id="s12" class="screen tool-screen"><div class="brand">ELIAS VERITON PRO</div><h2>📣 MARKETING CONTENT</h2><p>Create a simple 7-post content pack designed to attract buyers.</p><div class="card"><label>Offer<input id="mc-offer" placeholder="Product or service"></label><label>Audience<input id="mc-audience" placeholder="Who should see your content?"></label><button class="btn full" id="create-content">CREATE 7-DAY CONTENT PACK</button></div><div id="content-output" class="card" style="margin-top:14px;display:none"></div><button class="btn secondary full" onclick="show('s7')">← BACK TO DASHBOARD</button></section>
+
+<section id="s13" class="screen tool-screen"><div class="brand">ELIAS VERITON PRO</div><h2>💰 PRICING GUIDANCE</h2><p>Use your target income and sales volume to choose a starting price.</p><div class="card"><label>Monthly income target<input id="price-target" placeholder="e.g. ₦500,000"></label><label>Expected monthly customers / sales<input id="price-sales" type="number" value="20" min="1"></label><label>Your offer<input id="price-offer" placeholder="e.g. coaching package"></label><button class="btn full" id="get-pricing">GET PRICING GUIDANCE</button></div><div id="pricing-output" class="card" style="margin-top:14px;display:none"></div><button class="btn secondary full" onclick="show('s7')">← BACK TO DASHBOARD</button></section>
+
+<section id="s14" class="screen tool-screen"><div class="brand">ELIAS VERITON PRO</div><h2>📅 30-DAY EXECUTION PLAN</h2><p>Follow one practical action each day.</p><div class="card"><button class="btn full" id="build-30-day">BUILD MY 30-DAY PLAN</button></div><div id="day-output" class="card" style="margin-top:14px;display:none"></div><button class="btn secondary full" onclick="show('s7')">← BACK TO DASHBOARD</button></section>
+
+<section id="s15" class="screen tool-screen"><div class="brand">ELIAS VERITON PRO</div><h2>📈 MULTIPLE-INCOME PLANNING</h2><p>Build a balanced system instead of depending on one income source.</p><div class="card"><label>Monthly income target<input id="multi-target" placeholder="e.g. ₦500,000"></label><label>Primary skill / business<input id="multi-skill" placeholder="e.g. teaching, writing, sales"></label><button class="btn full" id="map-income">MAP MY INCOME STREAMS</button></div><div id="multi-output" class="card" style="margin-top:14px;display:none"></div><button class="btn secondary full" onclick="show('s7')">← BACK TO DASHBOARD</button></section>
+
+<section id="s16" class="screen tool-screen"><div class="brand">ELIAS VERITON PRO</div><h2>⚡ AI-POWERED ASSISTANCE</h2><p>Ask for help with your next income-building decision.</p><div class="card"><textarea id="aiQuestion" rows="5" placeholder="Ask: What should I do today? How can I sell this? What should I charge?"></textarea><button class="btn full" id="ask-ai">ASK ELIAS VERITON AI</button></div><div id="ai-output" class="card" style="margin-top:14px;display:none"></div><button class="btn secondary full" onclick="show('s7')">← BACK TO DASHBOARD</button></section>
+
+<section id="s17" class="screen tool-screen"><div class="brand">ELIAS VERITON</div><h2>👤 MY PROFILE</h2><p>Keep your income-building information in one place.</p><div class="card"><label>Your name<input id="profile-name" placeholder="Enter your name"></label><label>Email<input id="profile-email" type="email" placeholder="Your email"></label><label>Primary goal<textarea id="profile-goal" rows="3" placeholder="What do you want to achieve?"></textarea></label><button class="btn full" id="save-profile">SAVE PROFILE</button></div><div class="card" style="margin-top:14px"><h3>Account</h3><p id="profile-status" class="muted">Free profile</p><button class="btn secondary full" id="logout-profile">LOG OUT</button><button class="btn secondary full" type="button" onclick="show('s37')">ACCOUNT & CLOUD SYNC</button></div><button class="btn secondary full" onclick="show('s7')">← BACK TO DASHBOARD</button></section>
+
+<section id="s18" class="screen tool-screen"><div class="brand">ELIAS VERITON PRO</div><h2>💾 SAVED WORK</h2><p>Your saved plans, scripts and generated results.</p><div id="saved-list" class="saved-list"></div><button class="btn secondary full" onclick="show('s7')">← BACK TO DASHBOARD</button></section>
+
+<section id="s19" class="screen tool-screen"><div class="brand">ELIAS VERITON PRO</div><h2>📊 MY PROGRESS</h2><p>Track the money and actions that move you toward your target.</p><div class="stat-grid"><div class="stat"><span>Target</span><strong id="progress-target">₦0</strong></div><div class="stat"><span>Recorded</span><strong id="progress-earned">₦0</strong></div><div class="stat"><span>Remaining</span><strong id="progress-remaining">₦0</strong></div></div><div class="card" style="margin-top:14px"><h3>Income progress</h3><div class="progress"><span id="progress-bar"></span></div><p id="progress-percent">0%</p><label>Add income<input id="income-entry" type="number" min="0" placeholder="e.g. 25000"></label><button class="btn full" id="add-income">ADD INCOME</button></div><div class="card"><h3>Actions completed</h3><label>Completed actions<input id="actions-entry" type="number" min="0" value="0"></label><button class="btn full" id="save-actions">SAVE PROGRESS</button></div><button class="btn secondary full" onclick="show('s7')">← BACK TO DASHBOARD</button></section>
+
+<section id="s20" class="screen tool-screen"><div class="brand">ELIAS VERITON</div><h2>🔎 DISCOVER</h2><p>Explore income opportunities by category.</p><input id="discover-search" class="search" placeholder="Search opportunities…"><div id="discover-list" class="feature-grid"></div><button class="btn secondary full" onclick="show('s7')">← BACK TO DASHBOARD</button></section>
+
+<section id="s21" class="screen tool-screen"><div class="brand">ELIAS VERITON PRO</div><h2>🧰 RESOURCES & TEMPLATES</h2><p>Practical resources to help you execute faster.</p><div class="resource-list" id="resource-list"></div><button class="btn secondary full" onclick="show('s7')">← BACK TO DASHBOARD</button></section>
+
+<section id="s22" class="screen tool-screen"><div class="brand">ELIAS VERITON</div><h2>❤️ FAVORITES</h2><p>Keep your preferred opportunities here.</p><div id="favorites-list" class="feature-grid"></div><button class="btn secondary full" onclick="show('s7')">← BACK TO DASHBOARD</button></section>
+
+<section id="s23" class="screen tool-screen"><div class="brand">ELIAS VERITON PRO</div><h2>📤 EXPORT & SHARE</h2><p>Copy or download your generated work.</p><div class="card"><label>Text to export<textarea id="export-text" rows="10" placeholder="Paste or write your plan here"></textarea></label><div class="feature-grid"><button class="btn" id="copy-export">COPY</button><button class="btn" id="download-export">DOWNLOAD TXT</button></div><button class="btn secondary full" id="share-export">SHARE</button></div><button class="btn secondary full" onclick="show('s7')">← BACK TO DASHBOARD</button></section>
+
+<section id="s24" class="screen tool-screen"><div class="brand">ELIAS VERITON PRO</div><h2>💳 MY SUBSCRIPTION</h2><p>View your current Pro plan and payment status.</p><div class="card"><h3 id="sub-plan">Pro Access</h3><p id="sub-status">Status: Active after successful payment</p><p id="sub-renewal">Plan details will appear here.</p></div><button class="btn full" onclick="show('s4')">VIEW / CHANGE PLAN</button><button class="btn secondary full" onclick="show('s7')">← BACK TO DASHBOARD</button></section>
+
+<section id="s25" class="screen tool-screen"><div class="brand">ELIAS VERITON</div><h2>⚙️ SETTINGS</h2><div class="card"><h3>Preferences</h3><label><input id="notify-toggle" type="checkbox" checked> Enable reminders</label><label><input id="compact-toggle" type="checkbox"> Compact dashboard</label><button class="btn full" id="save-settings">SAVE SETTINGS</button></div><div class="card"><h3>Privacy</h3><p class="muted">Your API secrets are kept outside the app. Do not share secret keys.</p><button class="btn secondary full" onclick="show('s27')">PRIVACY & TERMS</button></div><button class="btn secondary full" onclick="show('s7')">← BACK TO DASHBOARD</button></section>
+
+<section id="s26" class="screen tool-screen"><div class="brand">ELIAS VERITON</div><h2>🆘 HELP & SUPPORT</h2><p>Find answers and get help with the app.</p><div class="feature-grid"><button class="feature-card" type="button" onclick="alert('FAQ: Start with AI Income Plan, follow the 30-Day Plan, and track progress from the dashboard.')"><h3>❓ FAQ</h3><p>Common questions and answers.</p></button><button class="feature-card" type="button" onclick="window.location.href='mailto:support@eliasveriton.com'"><h3>✉️ CONTACT SUPPORT</h3><p>Email the support team.</p></button><button class="feature-card" type="button" onclick="alert('Please describe the problem and send it to support.')"><h3>🐞 REPORT A PROBLEM</h3><p>Tell us what went wrong.</p></button><button class="feature-card" type="button" onclick="show('s24')"><h3>💳 PAYMENT HELP</h3><p>Review your subscription.</p></button></div><button class="btn secondary full" onclick="show('s7')">← BACK TO DASHBOARD</button></section>
+
+<section id="s27" class="screen tool-screen"><div class="brand">ELIAS VERITON</div><h2>🔐 PRIVACY & TERMS</h2><div class="card"><h3>Privacy</h3><p>We use your information to personalize income-building tools. Payment credentials are handled by the payment provider. Never place private API secrets in the app.</p><h3>Terms</h3><p>The app provides educational and planning assistance. Income is not guaranteed. Users are responsible for decisions, offers, pricing and business activities.</p></div><button class="btn secondary full" onclick="show('s25')">← BACK TO SETTINGS</button></section>
+
+<section id="s28" class="screen tool-screen"><div class="brand">ELIAS VERITON PRO</div><h2>🏆 ACHIEVEMENTS</h2><p>Build momentum by taking practical actions.</p><div id="achievement-list" class="feature-grid"></div><button class="btn secondary full" onclick="show('s7')">← BACK TO DASHBOARD</button></section>
+
+
+<section id="s29" class="screen tool-screen"><div class="brand">ELIAS VERITON</div><h2>🔔 NOTIFICATIONS</h2><p>Your reminders, milestones and important account updates.</p><div id="notification-list" class="feature-grid"></div><button class="btn secondary full" onclick="show('s7')">← BACK TO DASHBOARD</button></section>
+<section id="s30" class="screen tool-screen"><div class="brand">ELIAS VERITON PRO</div><h2>🗓️ ACTIVITY</h2><p>A simple record of what you have been doing in the app.</p><div id="activity-list" class="saved-list"></div><button class="btn secondary full" onclick="show('s7')">← BACK TO DASHBOARD</button></section>
+<section id="s31" class="screen tool-screen"><div class="brand">ELIAS VERITON PRO</div><h2>🎯 MY GOALS</h2><p>Set clear goals and keep them visible.</p><div class="card"><label>Goal title<input id="goal-title" placeholder="e.g. Get my first 10 customers"></label><label>Target date<input id="goal-date" type="date"></label><button class="btn full" id="add-goal">ADD GOAL</button></div><div id="goal-list" class="saved-list" style="margin-top:14px"></div><button class="btn secondary full" onclick="show('s7')">← BACK TO DASHBOARD</button></section>
+<section id="s32" class="screen tool-screen"><div class="brand">ELIAS VERITON</div><h2>💾 BACKUP & RESTORE</h2><p>Keep a copy of your local app data on your device.</p><div class="card"><button class="btn full" id="export-backup">DOWNLOAD BACKUP</button><label style="margin-top:14px">Restore backup<input id="import-backup" type="file" accept="application/json"></label><button class="btn secondary full" id="clear-local-data">DELETE LOCAL DATA</button></div><button class="btn secondary full" onclick="show('s7')">← BACK TO DASHBOARD</button></section>
+<section id="s33" class="screen tool-screen"><div class="brand">ELIAS VERITON</div><h2>💡 FEEDBACK</h2><p>Help us improve the app.</p><div class="card"><label>Your feedback<textarea id="feedback-text" rows="6" placeholder="Tell us what you like, what is confusing, or what you want added."></textarea></label><button class="btn full" id="send-feedback">SEND FEEDBACK</button></div><button class="btn secondary full" onclick="show('s7')">← BACK TO DASHBOARD</button></section>
+<section id="s34" class="screen tool-screen"><div class="brand">ELIAS VERITON</div><h2>🎁 INVITE & REFER</h2><p>Share Elias Veriton AI Income Builder with someone who wants to build income.</p><div class="card"><h3>Your invite message</h3><textarea id="invite-text" rows="6" readonly>I'm using Elias Veriton AI Income Builder to turn skills and knowledge into practical income plans. You can check it out too.</textarea><button class="btn full" id="share-invite">SHARE INVITE</button><button class="btn secondary full" id="copy-invite">COPY INVITE</button></div><button class="btn secondary full" onclick="show('s7')">← BACK TO DASHBOARD</button></section>
+<section id="s35" class="screen tool-screen"><div class="brand">ELIAS VERITON</div><h2>📱 APP EXPERIENCE</h2><p>Make the app easier to use on your device.</p><div class="card"><h3>Accessibility</h3><label><input id="large-text" type="checkbox"> Larger text</label><label><input id="reduce-motion" type="checkbox"> Reduce motion</label><button class="btn full" id="save-accessibility">SAVE ACCESSIBILITY</button></div><div class="card"><h3>Install</h3><p id="install-status">If your browser supports installation, you may be able to add the app to your home screen.</p><button class="btn secondary full" id="install-app">ADD TO HOME SCREEN</button></div><button class="btn secondary full" onclick="show('s7')">← BACK TO DASHBOARD</button></section>
+
+<section id="s37" class="screen tool-screen">
+  <div class="brand">ELIAS VERITON</div>
+  <h2>🔐 ACCOUNT & CLOUD SYNC</h2>
+  <p>Create an account or sign in to securely save your profile, plans and progress in the cloud.</p>
+  <div id="auth-signed-out" class="card">
+    <h3>Create account / Sign in</h3>
+    <label>Email<input id="auth-email" type="email" autocomplete="email" placeholder="you@example.com"></label>
+    <label>Password<input id="auth-password" type="password" autocomplete="current-password" placeholder="At least 6 characters"></label>
+    <button class="btn full" id="auth-signup">CREATE ACCOUNT</button>
+    <button class="btn secondary full" id="auth-signin">SIGN IN</button>
+    <p class="small">Your password is handled by Supabase Authentication. Do not share it with anyone.</p>
+  </div>
+  <div id="auth-signed-in" class="card" style="display:none">
+    <h3>You are signed in</h3>
+    <p id="auth-user-email" class="muted"></p>
+    <button class="btn full" id="auth-sync">SYNC MY DATA NOW</button>
+    <button class="btn secondary full" id="auth-signout">SIGN OUT</button>
+  </div>
+  <div id="auth-status" class="notice">Cloud account is not connected yet.</div>
+  <button class="btn secondary full" onclick="show('s17')">← BACK TO PROFILE</button>
+</section>
+<section id="s36" class="screen tool-screen"><div class="brand">ELIAS VERITON</div><h2>ℹ️ ABOUT</h2><div class="card"><h3>Elias Veriton AI Income Builder</h3><p>Version 1.35.0</p><p>A practical platform for turning skills, knowledge, time and resources into income-building actions.</p><p><strong>Important:</strong> The app provides planning and educational assistance. It does not guarantee income or financial results.</p></div><div class="feature-grid"><button class="feature-card" type="button" onclick="show('s27')"><h3>🔐 Privacy & Terms</h3><p>Read the current app information.</p></button><button class="feature-card" type="button" onclick="show('s26')"><h3>🆘 Help</h3><p>Get support.</p></button></div><button class="btn secondary full" onclick="show('s7')">← BACK TO DASHBOARD</button></section>
+
+<div id="toast" class="toast"></div>
+
+</div>
+
+<!-- Paystack InlineJS: use your Paystack PUBLIC key here. Never put a secret key in this file. -->
+<script src="https://js.paystack.co/v2/inline.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+// Production-safe helpers: no secrets are stored in the client.
+const EV_CONFIG = { apiBase: "" };
+function apiUrl(path){ return (EV_CONFIG.apiBase || "") + path; }
+function showToast(msg){ let t=document.getElementById("ev-toast"); if(!t){t=document.createElement("div");t.id="ev-toast";t.style.cssText="position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:#0a1b2d;color:#fff;padding:12px 16px;border:1px solid #d9b85d;border-radius:12px;z-index:99999;box-shadow:0 8px 30px rgba(0,0,0,.35);max-width:90%;text-align:center";document.body.appendChild(t);} t.textContent=msg;t.style.display='block';clearTimeout(t._x);t._x=setTimeout(()=>t.style.display='none',3500);}
+function safeText(v){return String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));}
+// ---- Product features: profile, saved work, progress, discover, resources, favorites, export, settings, support, achievements ----
+const STORE_KEY='ev_income_builder_state_v130';
+function loadState(){try{return JSON.parse(localStorage.getItem(STORE_KEY)||'{}')}catch(e){return {}}}
+function saveState(st){localStorage.setItem(STORE_KEY,JSON.stringify(st));}
+function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.style.display='block';setTimeout(()=>t.style.display='none',2200)}
+function saveResult(title,text){const st=loadState();st.saved=st.saved||[];st.saved.unshift({id:Date.now(),title,text});st.saved=st.saved.slice(0,30);saveState(st);toast('Saved to Saved Work');renderSaved();}
+function renderSaved(){const el=document.getElementById('saved-list');if(!el)return;const st=loadState();const arr=st.saved||[];el.innerHTML=arr.length?arr.map(x=>`<div class="list-item"><div><strong>${esc(x.title)}</strong><div class="muted">${esc(String(x.text).slice(0,150))}${String(x.text).length>150?'…':''}</div></div><div><button class="btn" type="button" onclick="useSaved(${x.id})">OPEN</button> <button class="btn secondary" type="button" onclick="deleteSaved(${x.id})">DELETE</button></div></div>`).join(''):'<div class="card"><p>No saved work yet. Generate a plan, then save it.</p></div>'}
+function useSaved(id){const st=loadState();const x=(st.saved||[]).find(a=>a.id===id);if(x){document.getElementById('export-text').value=x.text;show('s23')}}
+function deleteSaved(id){const st=loadState();st.saved=(st.saved||[]).filter(x=>x.id!==id);saveState(st);renderSaved();toast('Deleted')}
+function progressState(){const st=loadState();st.progress=st.progress||{earned:0,actions:0};return st}
+function renderProgress(){const st=progressState();const target=moneyNumber(userData().target)||0;const earned=Number(st.progress.earned)||0;const remain=Math.max(target-earned,0);const pct=target?Math.min(100,(earned/target)*100):0;document.getElementById('progress-target').textContent='₦'+target.toLocaleString();document.getElementById('progress-earned').textContent='₦'+earned.toLocaleString();document.getElementById('progress-remaining').textContent='₦'+remain.toLocaleString();document.getElementById('progress-bar').style.width=pct+'%';document.getElementById('progress-percent').textContent=pct.toFixed(0)+'% toward target';document.getElementById('actions-entry').value=st.progress.actions||0}
+document.getElementById('add-income').onclick=()=>{const n=Number(document.getElementById('income-entry').value||0);if(!n||n<0){alert('Enter a valid income amount.');return}const st=progressState();st.progress.earned=(Number(st.progress.earned)||0)+n;saveState(st);document.getElementById('income-entry').value='';renderProgress();toast('Income recorded');};
+document.getElementById('save-actions').onclick=()=>{const st=progressState();st.progress.actions=Math.max(0,Number(document.getElementById('actions-entry').value||0));saveState(st);toast('Progress saved');renderAchievements()};
+const opportunities=[['Freelancing','Sell a defined skill as a service.'],['AI Services','Use AI tools to deliver faster services.'],['Digital Products','Package knowledge into repeatable products.'],['Affiliate Marketing','Earn commissions by recommending useful products.'],['WhatsApp Sales','Help businesses turn chats into customers.'],['Online Coaching','Sell structured coaching or training.'],['Content Creation','Build an audience around a useful topic.'],['Consulting','Sell expertise around a specific problem.'],['Local Services','Offer a practical service in your market.'],['Product Business','Sell physical products with a clear margin.']];
+function renderDiscover(filter=''){const el=document.getElementById('discover-list');if(!el)return;const f=filter.toLowerCase();el.innerHTML=opportunities.filter(x=>(x[0]+' '+x[1]).toLowerCase().includes(f)).map(x=>{const fav=(loadState().favorites||[]).includes(x[0]);return `<article class="feature-card"><h3>${esc(x[0])}</h3><p>${esc(x[1])}</p><button class="btn" type="button" onclick="toggleFavorite('${esc(x[0])}')">${fav?'♥ SAVED':'♡ SAVE'}</button></article>`}).join('')||'<div class="card"><p>No opportunity matches your search.</p></div>'}
+document.getElementById('discover-search').oninput=e=>renderDiscover(e.target.value);
+function toggleFavorite(name){const st=loadState();st.favorites=st.favorites||[];if(st.favorites.includes(name))st.favorites=st.favorites.filter(x=>x!==name);else st.favorites.push(name);saveState(st);renderDiscover(document.getElementById('discover-search').value);renderFavorites();toast(st.favorites.includes(name)?'Added to favorites':'Removed from favorites')}
+function renderFavorites(){const el=document.getElementById('favorites-list');if(!el)return;const fav=loadState().favorites||[];el.innerHTML=fav.length?fav.map(name=>`<article class="feature-card"><h3>❤️ ${esc(name)}</h3><p>Saved income opportunity.</p><button class="btn secondary" type="button" onclick="toggleFavorite('${esc(name)}')">REMOVE</button></article>`).join(''):'<div class="card"><p>No favorites yet. Discover an opportunity and tap SAVE.</p></div>'}
+const resources=[['Sales Follow-Up Checklist','A simple sequence for following up without spamming.'],['Offer Builder','Define customer, problem, result and delivery.'],['Content Checklist','Hook, value, proof, CTA and format.'],['Customer Interview Questions','Questions that reveal what buyers actually want.'],['Pricing Checklist','Cost, value, positioning, target and sales volume.'],['Daily Action Checklist','One revenue-producing action per day.']];
+function renderResources(){const el=document.getElementById('resource-list');el.innerHTML=resources.map(r=>`<div class="list-item"><div><strong>${esc(r[0])}</strong><div class="muted">${esc(r[1])}</div></div><button class="btn" type="button" onclick="saveResult('${esc(r[0])}','${esc(r[1])}')">SAVE</button></div>`).join('')}
+document.getElementById('copy-export').onclick=async()=>{const t=document.getElementById('export-text').value.trim();if(!t){alert('Enter or paste something to export.');return}try{await navigator.clipboard.writeText(t);toast('Copied to clipboard')}catch(e){alert('Copy is not available in this browser.')}};
+document.getElementById('download-export').onclick=()=>{const t=document.getElementById('export-text').value.trim();if(!t){alert('Enter or paste something to export.');return}const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([t],{type:'text/plain'}));a.download='elias-veriton-income-plan.txt';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),500)};
+document.getElementById('share-export').onclick=async()=>{const t=document.getElementById('export-text').value.trim();if(!t){alert('Enter or paste something to share.');return}if(navigator.share){await navigator.share({title:'Elias Veriton Income Builder',text:t})}else{try{await navigator.clipboard.writeText(t);toast('Sharing unavailable; copied instead')}catch(e){alert('Sharing is not available on this device.')}}};
+document.getElementById('save-profile').onclick=()=>{const st=loadState();st.profile={name:document.getElementById('profile-name').value.trim(),email:document.getElementById('profile-email').value.trim(),goal:document.getElementById('profile-goal').value.trim()};saveState(st);document.getElementById('profile-status').textContent='Profile saved locally on this device';toast('Profile saved')};
+document.getElementById('logout-profile').onclick=()=>{if(confirm('Log out and clear this local profile?')){const st=loadState();delete st.profile;saveState(st);document.getElementById('profile-name').value='';document.getElementById('profile-email').value='';document.getElementById('profile-goal').value='';toast('Logged out')}};
+document.getElementById('save-settings').onclick=()=>{const st=loadState();st.settings={notify:document.getElementById('notify-toggle').checked,compact:document.getElementById('compact-toggle').checked};saveState(st);toast('Settings saved')};
+function renderAchievements(){const el=document.getElementById('achievement-list');const st=loadState();const earned=Number(st.progress?.earned)||0;const actions=Number(st.progress?.actions)||0;const saved=(st.saved||[]).length;const fav=(st.favorites||[]).length;const items=[['🔥 First Step','Complete your first income opportunity search',!!userData().skills],['💰 First Income','Record your first income',earned>0],['⚡ Action Taker','Complete 5 actions',actions>=5],['💾 Builder','Save your first piece of work',saved>0],['❤️ Curator','Save 3 favorites',fav>=3],['🚀 Momentum','Record ₦50,000 or more',earned>=50000]];el.innerHTML=items.map(x=>`<article class="feature-card"><h3>${x[2]?'🏆':'🔒'} ${esc(x[0])}</h3><p>${esc(x[1])}</p></article>`).join('')}
+// Auto-save generated AI results and wire extra features.
+const originalCallAI=callAI;
+callAI=async function(tool,request,outputId){await originalCallAI(tool,request,outputId);const el=document.getElementById(outputId);if(el&&el.style.display!=='none'){const text=el.innerText||'';if(text&&!/connection/i.test(text)){const saveBtn=document.createElement('button');saveBtn.className='btn secondary full';saveBtn.type='button';saveBtn.textContent='💾 SAVE THIS RESULT';saveBtn.onclick=()=>saveResult(tool,text);el.appendChild(saveBtn);const exportBtn=document.createElement('button');exportBtn.className='btn secondary full';exportBtn.type='button';exportBtn.textContent='📤 SEND TO EXPORT';exportBtn.onclick=()=>{document.getElementById('export-text').value=text;show('s23')};el.appendChild(exportBtn)}}};
+const oldShow2=show;show=function(id){oldShow2(id);if(id==='s18')renderSaved();if(id==='s19')renderProgress();if(id==='s20')renderDiscover();if(id==='s21')renderResources();if(id==='s22')renderFavorites();if(id==='s28')renderAchievements();if(id==='s17'){const st=loadState();document.getElementById('profile-name').value=st.profile?.name||'';document.getElementById('profile-email').value=st.profile?.email||'';document.getElementById('profile-goal').value=st.profile?.goal||''}if(id==='s24'){const st=loadState();document.getElementById('sub-plan').textContent=selectedPlan?.name||'Pro Access';document.getElementById('sub-status').textContent=selectedPlan?'Status: Payment submitted successfully':'Status: Pro access';document.getElementById('sub-renewal').textContent=selectedPlan?.display||'Your plan details will appear here.'}};
+</script>
+<script>
+let PAYSTACK_PUBLIC_KEY = "";
+let selectedPlan = null;
+const screens = [...document.querySelectorAll(".screen")];
+
+// Controlled sequential main flow:
+// Screen 1 -> Screen 2 -> Screen 3 -> Screen 4 -> Screen 6 -> Screen 7+.
+// Every fresh load starts on Screen 1.
+let evFlowStage = 1;
+const mainFlowStage = {s1:1,s2:2,s3:3,s4:4,s6:5,s7:6};
+
+function show(id){
+  const target = document.getElementById(id);
+  if(!target) return;
+
+  const targetStage = mainFlowStage[id];
+
+  if(targetStage){
+    if(targetStage > evFlowStage + 1){
+      showToast("Please complete the previous screen first.");
+      return;
+    }
+    if(targetStage > evFlowStage) evFlowStage = targetStage;
+  } else if(evFlowStage < 6){
+    showToast("Complete the main income-building flow first.");
+    return;
+  }
+
+  screens.forEach(s=>s.classList.remove("active"));
+  target.classList.add("active");
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+function comingSoon(name){
+  alert(name+" is coming in the next Pro screen. Your Pro access is active.");
+}
+
+// Fresh page load: Screen 1 only.
+screens.forEach(s=>s.classList.remove("active"));
+const firstScreen = document.getElementById("s1");
+if(firstScreen) firstScreen.classList.add("active");
+
+
+document.querySelectorAll("[data-next]").forEach(b=>b.onclick=()=>show(b.dataset.next));
+document.getElementById("start-pro").addEventListener("click",()=>show("s4"));
+
+const build=document.getElementById("build");
+build.onclick=()=>{
+  const skills=document.getElementById("skills").value.trim();
+  const capital=document.getElementById("capital").value.trim();
+  const time=document.getElementById("time").value.trim();
+  const target=document.getElementById("target").value.trim();
+  if(!skills||!capital||!time||!target){alert("Please complete all four fields.");return;}
+  const lower=skills.toLowerCase();
+  const opps=[];
+  if(/teach|train|coach|educat/.test(lower)) opps.push(["Online Coaching / Tutoring","Turn your teaching experience into paid lessons, coaching or training.","Sell lessons, coaching packages or training sessions.","Students, parents, professionals or small groups."]);
+  if(/writ|content|copy|blog/.test(lower)) opps.push(["Writing & Content Service","Use your writing ability to provide a clear service businesses already pay for.","Sell copywriting, social posts, ebooks or content packages.","Small businesses, creators and professionals."]);
+  if(/sales|market|customer|whatsapp/.test(lower)) opps.push(["WhatsApp Sales Service","Use sales skills to help businesses convert enquiries into customers.","Sell follow-up, sales messaging and customer-acquisition services.","Small businesses, retailers and service providers."]);
+  const defaults=[
+    ["Digital Product Business","Package your knowledge into a product that can be sold repeatedly.","Sell ebooks, templates, guides or mini-courses.","People who need the knowledge you already have."],
+    ["Freelance Service","Turn an existing skill into a simple paid service.","Sell a defined service package.","Individuals, creators and small businesses."],
+    ["Local Service Business","Offer a practical service with low startup cost.","Sell a service with a clear outcome.","Customers in your local market."]
+  ];
+  for(const d of defaults) if(opps.length<3) opps.push(d);
+  const unique=[]; const seen=new Set();
+  for(const o of opps){if(!seen.has(o[0])){seen.add(o[0]);unique.push(o);}}
+  document.getElementById("result-summary").textContent=`Based on your skills (${skills}), capital (${capital}), time (${time}) and target (${target}), here are three practical directions to explore.`;
+  document.getElementById("opportunities").innerHTML=unique.slice(0,3).map((o,i)=>`
+    <article class="card"><h3>${i+1}. ${o[0]}</h3><p>${o[1]}</p><p><strong>What to sell:</strong> ${o[2]}</p><p><strong>Who to sell to:</strong> ${o[3]}</p></article>
+  `).join("");
+  show("s3");
+};
+
+document.querySelectorAll(".plan").forEach(p=>{
+  p.onclick=()=>{
+    document.querySelectorAll(".plan").forEach(x=>x.classList.remove("selected"));
+    p.classList.add("selected");
+    selectedPlan={name:p.dataset.plan,amount:Number(p.dataset.amount),display:p.dataset.display};
+    document.getElementById("chosen").innerHTML=`<strong>✓ ${selectedPlan.name} selected — ${selectedPlan.display}</strong>`;
+    document.getElementById("pay").disabled=false;
+  };
+});
+
+document.getElementById("pro-start").onclick=()=>show("s7");
+
+
+document.getElementById("pay").onclick=async()=>{
+  const email=document.getElementById("email").value.trim();
+  if(!selectedPlan){alert("Please select a plan.");return;}
+  if(!email){alert("Please enter your email address.");return;}
+  try{
+    if(!PAYSTACK_PUBLIC_KEY || !PAYSTACK_PUBLIC_KEY.startsWith('pk_live_')){ alert('Live Paystack is not configured yet. Add your pk_live_ public key as PAYSTACK_PUBLIC_KEY in Vercel, then redeploy.'); return; }
+    const popup=new PaystackPop();
+    popup.checkout({
+      key:PAYSTACK_PUBLIC_KEY,
+      email,
+      amount:selectedPlan.amount,
+      currency:"NGN",
+      channels:["card","bank_transfer","bank"],
+      metadata:{plan:selectedPlan.name,source:"Elias Veriton AI Income Builder"},
+      onSuccess:async(transaction)=>{
+        const reference=transaction?.reference||'';
+        if(!reference){ alert('Payment returned without a transaction reference. Pro access was not activated.'); return; }
+        try{
+          const vr=await fetch('/api/paystack-verify',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({reference,expectedAmount:selectedPlan.amount,expectedEmail:email})});
+          const vd=await vr.json().catch(()=>({}));
+          if(!vr.ok || !vd.ok){ throw new Error(vd.error||vd.message||'Paystack could not verify this payment.'); }
+          document.getElementById("paid-details").innerHTML=
+            `<strong>Your plan:</strong> ${selectedPlan.name}<br><strong>Amount paid:</strong> ${selectedPlan.display}<br><strong>Reference:</strong> ${reference}<br><strong>Status:</strong> ✓ Payment verified by Paystack`;
+          show("s6");
+        }catch(err){
+          alert('Payment was received by Paystack but could not be verified by the app yet. Please do not pay again. Reference: '+reference);
+        }
+      },
+      onCancel:()=>alert("Payment was cancelled. No Pro access was activated."),
+      onError:(error)=>alert("Payment could not be completed: "+(error?.message||"Please try again."))
+    });
+  }catch(e){alert("Payment could not be started: "+e.message);}
+};
+// ---- Pro tools ----
+function userData(){
+  return {
+    skills:(document.getElementById('skills')?.value||'').trim(),
+    capital:(document.getElementById('capital')?.value||'').trim(),
+    time:(document.getElementById('time')?.value||'').trim(),
+    target:(document.getElementById('target')?.value||'').trim()
+  };
+}
+function esc(x){return String(x||'').replace(/[&<>]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[m]));}
+function moneyNumber(v){const n=Number(String(v||'').replace(/[^0-9.]/g,''));return isFinite(n)?n:0;}
+function setOutput(id,html){const el=document.getElementById(id);el.innerHTML=html;el.style.display='block';el.scrollIntoView({behavior:'smooth',block:'nearest'});}
+function primaryOpportunity(){
+  const skills=userData().skills.toLowerCase();
+  if(/teach|train|coach|educat/.test(skills)) return 'Online Coaching / Tutoring';
+  if(/writ|content|copy|blog/.test(skills)) return 'Writing & Content Service';
+  if(/sales|market|customer|whatsapp/.test(skills)) return 'WhatsApp Sales Service';
+  return 'Digital Product Business';
+}
+function refreshPlanSummary(){
+ const d=userData(); document.getElementById('plan-summary').innerHTML=`<strong>Skills:</strong> ${esc(d.skills||'Not entered')}<br><strong>Capital:</strong> ${esc(d.capital||'Not entered')}<br><strong>Time:</strong> ${esc(d.time||'Not entered')}<br><strong>Target:</strong> ${esc(d.target||'Not entered')}<br><strong>Best starting direction:</strong> ${esc(primaryOpportunity())}`;
+}
+const oldShow=show; show=function(id){oldShow(id); if(id==='s8'){ refreshPlanSummary(); checkAIBackend(); }};
+async function checkAIBackend(){
+  const el=document.getElementById('ai-backend-status');
+  if(!el) return;
+  el.textContent='Checking secure AI connection…';
+  try{
+    const r=await fetch('/api/health',{cache:'no-store'});
+    const d=await r.json();
+    if(!r.ok || !d.aiConfigured) throw new Error('No AI provider is configured on this deployment. Add OPENAI_API_KEY or ANTHROPIC_API_KEY in Vercel.');
+    const providers=d.providers||{}; const names=[]; if(providers.openai?.configured) names.push('OpenAI'); if(providers.claude?.configured) names.push('Claude');
+    el.textContent='✓ Secure AI backend is ready ('+names.join(' + ')+'). Click GENERATE MY AI INCOME PLAN.';
+  }catch(e){
+    el.textContent='AI backend check: '+(e.message||'Unable to reach the AI backend.');
+  }
+}
+
+async function callAI(tool, request, outputId){
+  const el=document.getElementById(outputId);
+  el.style.display='block';
+  el.innerHTML='<h3>🤖 Elias Veriton AI</h3><p>Generating your personalized result…</p>';
+  try{
+    const r=await fetch('/api/ai',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({tool,request,context:userData()})});
+    const data=await r.json();
+    if(!r.ok) throw new Error(data.error||'AI service is not available yet.');
+    el.innerHTML='<h3>🤖 Elias Veriton AI</h3><div class="ai-result">'+esc(data.text).replace(/\n/g,'<br>')+'</div>';
+    el.scrollIntoView({behavior:'smooth',block:'nearest'});
+  }catch(e){
+    el.innerHTML='<h3>AI connection</h3><p>'+esc(e.message)+'</p><p class="small">No payment is required for this AI request. Check the Vercel AI environment variables and function logs if the error persists.</p>';
+  }
+}
+
+function generateAIIncomePlan(){
+ const d=userData();
+ const btn=document.getElementById('generate-ai-plan');
+ btn.disabled=true; btn.textContent='GENERATING…';
+ callAI('AI Income Plan',`Create a practical personalized 30-day income plan. User skills: ${d.skills}. Starting capital: ${d.capital}. Time per day: ${d.time}. Monthly target: ${d.target}. Identify the best starting opportunity, offer, customer, pricing approach, daily actions, weekly milestones, risks and first 3 actions. Be practical for a Nigerian user but do not assume facts not provided.`, 'ai-plan-output').finally(()=>{btn.disabled=false; btn.textContent='GENERATE MY AI INCOME PLAN';});
+}
+
+
+document.getElementById('build-business-plan').onclick=()=>{const offer=document.getElementById('bp-offer').value.trim()||primaryOpportunity();const cust=document.getElementById('bp-customer').value.trim()||'people who need this result';const res=document.getElementById('bp-result').value.trim()||'a clear, useful result for the customer';callAI('Detailed Business Plan',`Build a practical business plan for this offer: ${offer}. Target customer: ${cust}. Customer result: ${res}. Include positioning, offer structure, delivery process, acquisition channels, pricing logic, startup requirements, first 10 sales actions, metrics and risks.`, 'business-output');};
+
+document.getElementById('find-customers').onclick=()=>{const offer=document.getElementById('ca-offer').value.trim()||primaryOpportunity();const cust=document.getElementById('ca-customer').value.trim()||'small business owners';callAI('Customer Acquisition',`Create a customer acquisition plan for ${offer}, targeting ${cust}. Include ideal customer profile, where to find prospects, a 7-day prospecting routine, outreach angles, follow-up sequence, referral strategy and simple metrics.`, 'customer-output');};
+
+document.getElementById('create-wa-script').onclick=()=>{const offer=document.getElementById('wa-offer').value.trim()||primaryOpportunity();const cust=document.getElementById('wa-customer').value.trim()||'business owners';callAI('WhatsApp Sales Scripts',`Create natural WhatsApp sales scripts for ${offer} aimed at ${cust}. Include first contact, value message, qualification questions, price response, objection handling, follow-up after no reply, follow-up after interest, and closing. Keep messages conversational and not spammy.`, 'wa-output');};
+
+document.getElementById('create-content').onclick=()=>{const offer=document.getElementById('mc-offer').value.trim()||primaryOpportunity();const aud=document.getElementById('mc-audience').value.trim()||'your ideal customers';callAI('Marketing Content',`Create a 7-day marketing content pack for ${offer}, targeting ${aud}. For each day give a hook, post idea, concise caption, CTA and suggested format. Mix education, story, proof, objection handling and offer content.`, 'content-output');};
+
+document.getElementById('get-pricing').onclick=()=>{const target=document.getElementById('price-target').value.trim()||userData().target;const sales=document.getElementById('price-sales').value.trim()||'20';const offer=document.getElementById('price-offer').value.trim()||primaryOpportunity();callAI('Pricing Guidance',`Give pricing guidance for ${offer}. Monthly income target: ${target}. Expected monthly customers/sales: ${sales}. Calculate a sensible starting price range, explain the math, suggest entry/core/premium options, and warn about assumptions. Use Nigerian naira where appropriate.`, 'pricing-output');};
+
+document.getElementById('build-30-day').onclick=()=>{const d=userData();callAI('30-Day Execution Plan',`Create a detailed 30-day execution plan for the user's income goal. Skills: ${d.skills}. Capital: ${d.capital}. Time per day: ${d.time}. Target: ${d.target}. Give Day 1 through Day 30 with one or two concrete actions per day, emphasizing revenue-producing activity, customer conversations, delivery and review.`, 'day-output');};
+
+document.getElementById('map-income').onclick=()=>{const target=document.getElementById('multi-target').value.trim()||userData().target||'the monthly target';const skill=document.getElementById('multi-skill').value.trim()||userData().skills||'the primary skill';callAI('Multiple-Income Planner',`Design a multiple-income plan around target ${target} and core skill/business ${skill}. Propose 4 complementary income streams, how each makes money, startup requirements, suggested target contribution, order of execution, and rules for avoiding distraction.`, 'multi-output');};
+
+document.getElementById('ask-ai').onclick=()=>{const q=document.getElementById('aiQuestion').value.trim();if(!q){alert('Please type your question first.');return;}const d=userData();callAI('AI Assistant',`Answer the user's income-building question: ${q}. Use this user context: skills=${d.skills}; capital=${d.capital}; time=${d.time}; monthly target=${d.target}. Give a direct, practical answer, then the next 3 actions. Do not promise guaranteed income.`, 'ai-output');};
+
+
+// v1.31 additional commercial-app features
+function logActivity(action){const st=loadState();st.activity=st.activity||[];st.activity.unshift({time:new Date().toISOString(),action});st.activity=st.activity.slice(0,50);saveState(st);}
+function renderNotifications(){const el=document.getElementById('notification-list');const st=loadState();const notes=[];if(st.progress?.earned>0)notes.push(['💰','Income progress recorded','Keep building toward your target.']);if((st.saved||[]).length)notes.push(['💾','Saved work available','Your saved results are waiting in Saved Work.']);notes.push(['🤖','AI tools ready','Generate your next plan from the Pro Dashboard.']);notes.push(['📅','30-Day Plan','Small daily actions are easier to sustain than waiting for the perfect moment.']);el.innerHTML=notes.map(n=>`<article class="feature-card"><h3>${n[0]} ${esc(n[1])}</h3><p>${esc(n[2])}</p></article>`).join('');}
+function renderActivity(){const el=document.getElementById('activity-list');const arr=loadState().activity||[];el.innerHTML=arr.length?arr.map(a=>`<div class="list-item"><div><strong>${esc(a.action)}</strong><div class="muted">${new Date(a.time).toLocaleString()}</div></div></div>`).join(''):'<div class="card"><p>No activity recorded yet.</p></div>';}
+function renderGoals(){const el=document.getElementById('goal-list');const st=loadState();const goals=st.goals||[];el.innerHTML=goals.length?goals.map(g=>`<div class="list-item"><div><strong>${esc(g.title)}</strong><div class="muted">${g.date?`Target: ${esc(g.date)}`:'No target date'}</div></div><button class="btn secondary" type="button" onclick="completeGoal(${g.id})">${g.done?'DONE':'COMPLETE'}</button></div>`).join(''):'<div class="card"><p>No goals yet.</p></div>';}
+window.completeGoal=function(id){const st=loadState();st.goals=(st.goals||[]).map(g=>g.id===id?{...g,done:true}:g);saveState(st);logActivity('Completed a goal');renderGoals();toast('Goal completed');};
+document.getElementById('add-goal').onclick=()=>{const title=document.getElementById('goal-title').value.trim();if(!title){alert('Enter a goal.');return}const st=loadState();st.goals=st.goals||[];st.goals.push({id:Date.now(),title,date:document.getElementById('goal-date').value,done:false});saveState(st);logActivity('Added a new goal');document.getElementById('goal-title').value='';renderGoals();toast('Goal added');};
+document.getElementById('export-backup').onclick=()=>{const blob=new Blob([JSON.stringify(loadState(),null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='elias-veriton-backup.json';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),500);};
+document.getElementById('import-backup').onchange=async e=>{const f=e.target.files?.[0];if(!f)return;try{const st=JSON.parse(await f.text());localStorage.setItem(STORE_KEY,JSON.stringify(st));toast('Backup restored');location.reload();}catch(err){alert('That backup file could not be restored.');}};
+document.getElementById('clear-local-data').onclick=()=>{if(confirm('Delete all locally stored app data on this device? This cannot be undone.')){localStorage.removeItem(STORE_KEY);toast('Local data deleted');setTimeout(()=>location.reload(),500);}};
+document.getElementById('send-feedback').onclick=()=>{const t=document.getElementById('feedback-text').value.trim();if(!t){alert('Please enter your feedback.');return}const subject=encodeURIComponent('Elias Veriton AI Income Builder Feedback');const body=encodeURIComponent(t);window.location.href=`mailto:support@eliasveriton.com?subject=${subject}&body=${body}`;};
+document.getElementById('copy-invite').onclick=async()=>{try{await navigator.clipboard.writeText(document.getElementById('invite-text').value);toast('Invite copied');}catch(e){alert('Copy is not available on this device.')}};
+document.getElementById('share-invite').onclick=async()=>{const t=document.getElementById('invite-text').value;if(navigator.share){await navigator.share({title:'Elias Veriton AI Income Builder',text:t});}else{try{await navigator.clipboard.writeText(t);toast('Sharing unavailable; invite copied');}catch(e){alert('Sharing is not available on this device.')}}};
+document.getElementById('save-accessibility').onclick=()=>{const st=loadState();st.accessibility={large:document.getElementById('large-text').checked,reduce:document.getElementById('reduce-motion').checked};saveState(st);document.documentElement.classList.toggle('large-text',st.accessibility.large);document.documentElement.classList.toggle('reduce-motion',st.accessibility.reduce);toast('Accessibility saved');};
+document.getElementById('install-app').onclick=()=>{if(window.__evInstallPrompt){window.__evInstallPrompt.prompt();}else{document.getElementById('install-status').textContent='If available, use your browser menu and choose Add to Home Screen or Install App.';}};
+window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();window.__evInstallPrompt=e;});
+const featureShow=show; show=function(id){featureShow(id); if(id==='s29')renderNotifications(); if(id==='s30')renderActivity(); if(id==='s31')renderGoals(); if(id==='s17'){const st=loadState();document.getElementById('profile-name').value=st.profile?.name||'';document.getElementById('profile-email').value=st.profile?.email||'';document.getElementById('profile-goal').value=st.profile?.goal||'';} };
+['build','generate-ai-plan','build-business-plan','find-customers','create-wa-script','create-content','get-pricing','build-30-day','map-income','ask-ai','save-profile','add-income','save-actions','save-settings'].forEach(id=>{const el=document.getElementById(id);if(el){el.addEventListener('click',()=>logActivity('Used '+id));}});
+</script>
+
+
+<script>
+/* ---- Supabase cloud account + sync (v1.34.3) ---- */
+window.EV_SUPABASE = { client: null, user: null, ready: false };
+
+async function evLoadSupabaseConfig(){
+  try{
+    const r=await fetch('/api/config',{cache:'no-store'});
+    if(!r.ok) throw new Error('Cloud configuration unavailable');
+    const cfg=await r.json();
+    if(!cfg.supabaseUrl || !cfg.supabaseAnonKey) throw new Error('Supabase configuration is missing on Vercel');
+    window.EV_PAYSTACK_PUBLIC_KEY = cfg.paystackPublicKey || '';
+    PAYSTACK_PUBLIC_KEY = window.EV_PAYSTACK_PUBLIC_KEY;
+    window.EV_SUPABASE.client = window.supabase.createClient(cfg.supabaseUrl,cfg.supabaseAnonKey);
+    window.EV_SUPABASE.ready = true;
+    const {data:{session}} = await window.EV_SUPABASE.client.auth.getSession();
+    window.EV_SUPABASE.user = session?.user || null;
+    evRenderAuth();
+    if(window.EV_SUPABASE.user) await evPullCloud();
+    window.EV_SUPABASE.client.auth.onAuthStateChange((_event,session)=>{
+      window.EV_SUPABASE.user=session?.user||null;
+      evRenderAuth();
+    });
+  }catch(e){
+    console.warn('Supabase:',e);
+    const el=document.getElementById('auth-status');
+    if(el) el.textContent='Cloud setup is not connected yet. Finish the Vercel Supabase configuration first.';
+  }
+}
+function evRenderAuth(){
+  const out=document.getElementById('auth-signed-out'), inn=document.getElementById('auth-signed-in');
+  const status=document.getElementById('auth-status'), em=document.getElementById('auth-user-email');
+  if(!out||!inn) return;
+  const u=window.EV_SUPABASE.user;
+  out.style.display=u?'none':'block'; inn.style.display=u?'block':'none';
+  if(em) em.textContent=u ? ('Signed in as '+(u.email||'')) : '';
+  if(status) status.textContent=u ? 'Cloud account connected. Your app data can be synchronized.' : (window.EV_SUPABASE.ready?'Not signed in.':'Cloud setup is not connected yet.');
+  const ps=document.getElementById('profile-status');
+  if(ps) ps.textContent=u ? ('Cloud account: '+(u.email||'Connected')) : 'Free profile';
+}
+async function evSignUp(){
+  if(!window.EV_SUPABASE.ready) return toast('Cloud setup is not connected yet.');
+  const email=document.getElementById('auth-email').value.trim(), password=document.getElementById('auth-password').value;
+  if(!email || password.length<6) return alert('Enter a valid email and a password of at least 6 characters.');
+  const {error}=await window.EV_SUPABASE.client.auth.signUp({email,password});
+  if(error) return alert(error.message);
+  toast('Account created. Check your email if confirmation is required.');
+}
+async function evSignIn(){
+  if(!window.EV_SUPABASE.ready) return toast('Cloud setup is not connected yet.');
+  const email=document.getElementById('auth-email').value.trim(), password=document.getElementById('auth-password').value;
+  if(!email || !password) return alert('Enter your email and password.');
+  const {data,error}=await window.EV_SUPABASE.client.auth.signInWithPassword({email,password});
+  if(error) return alert(error.message);
+  window.EV_SUPABASE.user=data.user; evRenderAuth(); await evPullCloud(); toast('Signed in and synced');
+}
+async function evSignOut(){
+  if(window.EV_SUPABASE.client) await window.EV_SUPABASE.client.auth.signOut();
+  window.EV_SUPABASE.user=null; evRenderAuth(); toast('Signed out');
+}
+async function evPushCloud(){
+  const c=window.EV_SUPABASE.client,u=window.EV_SUPABASE.user;
+  if(!c||!u) return;
+  const st=loadState();
+  const {error}=await c.from('user_app_state').upsert({user_id:u.id,data:st,updated_at:new Date().toISOString()},{onConflict:'user_id'});
+  if(error) console.warn('Cloud sync failed:',error.message);
+}
+async function evPullCloud(){
+  const c=window.EV_SUPABASE.client,u=window.EV_SUPABASE.user;
+  if(!c||!u) return;
+  const {data,error}=await c.from('user_app_state').select('data').eq('user_id',u.id).maybeSingle();
+  if(error){ console.warn('Cloud load failed:',error.message); return; }
+  if(data?.data){
+    localStorage.setItem(STORE_KEY,JSON.stringify(data.data));
+    try{ renderSaved(); renderProgress(); }catch(e){}
+  }else{
+    await evPushCloud();
+  }
+}
+const _saveState=saveState;
+saveState=function(st){ _saveState(st); evPushCloud(); };
+document.getElementById('auth-signup').onclick=evSignUp;
+document.getElementById('auth-signin').onclick=evSignIn;
+document.getElementById('auth-signout').onclick=evSignOut;
+document.getElementById('auth-sync').onclick=async()=>{await evPushCloud();toast('Your data has been synchronized');};
+evLoadSupabaseConfig();
+</script>
+<script>
+window.addEventListener('error', e=>{ console.error(e.error||e.message); showToast('Something went wrong. Please try again.'); });
+window.addEventListener('unhandledrejection', e=>{ console.error(e.reason); showToast('The request could not be completed. Please check your connection.'); });
+</script>
+</body>
+</html>
